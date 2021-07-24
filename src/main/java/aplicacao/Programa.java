@@ -13,10 +13,14 @@ public class Programa {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("exemplo-jpa");
 		EntityManager em = emf.createEntityManager();
 		
+		//Pessoa p = new Pessoa(2, null, null); //detached para contornar este erro faremos um find para recuperar o usuario do banco
 		Pessoa p = em.find(Pessoa.class, 2);
-		System.out.println(p);
+		//iniciar a transaction
+		em.getTransaction().begin();
+		em.remove(p);
+		em.getTransaction().commit();
 		
-		System.out.println("Pronto");
+		System.out.println("Pronto!");
 		em.close();
 		emf.close();
 	}
